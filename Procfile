@@ -1,0 +1,1 @@
+web: gunicorn foodromeoapp.wsgi --log-file -
