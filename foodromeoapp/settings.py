@@ -15,6 +15,12 @@ import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'poojapauskar22'
+EMAIL_HOST_PASSWORD = 'pooja22222'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
 STATIC_ROOT = 'staticfiles'
 STATIC_URL = '/static/'
 
@@ -42,6 +48,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'register',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -86,16 +93,25 @@ WSGI_APPLICATION = 'foodromeoapp.wsgi.application'
 #     }
 # }
 
-
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'ddus0gocf25n4p',                      
+        'USER': 'gfunckdkjmeebp',
+        'PASSWORD': 'ZysX_MRBc053Xh_D7G8nUNSXX-',
+        'HOST': 'ec2-107-21-120-109.compute-1.amazonaws.com',
+        'PORT': '5432',
+    }
+}
 
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
-import dj_database_url
-DATABASES = {
-    'default': dj_database_url.config()
-}
+if os.environ.get('DATABASE_URL', None):
+    import dj_database_url
+    DATABASES['default'] = dj_database_url.config()
 
 
+DATABASES['default']['ENGINE'] = 'django.db.backends.postgresql_psycopg2'
 
 
 
