@@ -20,4 +20,5 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^', include('register.urls')),
     url(r'^', include('verify.urls')),
+    url(r'^simple/', include('simple.urls')),
 ]

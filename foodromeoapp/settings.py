@@ -51,6 +51,7 @@ INSTALLED_APPS = (
     'rest_framework',
     'register',
     'verify',
+    'simple',
 )
 
 MIDDLEWARE_CLASSES = (
