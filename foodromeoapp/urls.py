@@ -22,11 +22,21 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^', include('register.urls')),
     url(r'^', include('verify.urls')),
-
     url(r'^$', 'foodromeoapp.views.home', name='home'),
     url('', include('social.apps.django_app.urls', namespace='social')),
+    url('', include('django.contrib.auth.urls', namespace='auth')),
+
+    # url(r'^$', 'foodromeoapp.views.home', name='home'),
+    # url('', include('social.apps.django_app.urls', namespace='social')),
     
 ]
+
+# urlpatterns = patterns('',
+#    url(r'^$', 'foodromeoapp.views.home', name='home'),
+#    url('', include('social.apps.django_app.urls', namespace='social')),
+#    url('', include('django.contrib.auth.urls', namespace='auth')),
+  
+# )
 
 
 
