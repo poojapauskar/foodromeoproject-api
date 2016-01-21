@@ -51,7 +51,8 @@ INSTALLED_APPS = (
     'rest_framework',
     'register',
     'verify',
-    'simple',
+    'social.apps.django_app.default',
+    'foodromeoapp',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -63,10 +64,25 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
-    # 'socialregistration.middleware.FacebookMiddleware',
 )
 
 ROOT_URLCONF = 'foodromeoapp.urls'
+
+
+LOGIN_REDIRECT_URL = '/'
+
+SOCIAL_AUTH_FACEBOOK_KEY = '177909892570210'
+SOCIAL_AUTH_FACEBOOK_SECRET = 'db005a2d32b03896dd46341e8cba2081'
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '219221435680-k8n8mbkafm5p3nlbup8ng2m9so1mp4nb.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'a4pCB597o7_mLT5p68BP9PIh'
+
+# SETTINGS_PATH = os.path.normpath(os.path.dirname(__file__))
+# TEMPLATE_DIRS = (       
+#                   os.path.join(SETTINGS_PATH, 'templates'),
+#                   os.path.join(SETTINGS_PATH, 'templates/foodromeoapp')
+
+# )
 
 TEMPLATES = [
     {
@@ -79,10 +95,25 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.core.context_processors.i18n',
+                'django.core.context_processors.media',
+                'django.core.context_processors.static',
+                'django.core.context_processors.tz',
+                'social.apps.django_app.context_processors.backends',
+                'social.apps.django_app.context_processors.login_redirect',
             ],
         },
     },
 ]
+
+
+
+AUTHENTICATION_BACKENDS = (
+   'social.backends.facebook.FacebookOAuth2',
+   'social.backends.google.GoogleOAuth2',
+   'social.backends.twitter.TwitterOAuth',
+   'django.contrib.auth.backends.ModelBackend',
+)
 
 WSGI_APPLICATION = 'foodromeoapp.wsgi.application'
 

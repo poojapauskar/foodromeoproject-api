@@ -16,9 +16,18 @@ Including another URLconf
 from django.conf.urls import url, patterns, include
 from django.contrib import admin
 
+admin.autodiscover()
+
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^', include('register.urls')),
     url(r'^', include('verify.urls')),
-    url(r'^simple/', include('simple.urls')),
+
+    url(r'^$', 'foodromeoapp.views.home', name='home'),
+    url('', include('social.apps.django_app.urls', namespace='social')),
+    
 ]
+
+
+
+
