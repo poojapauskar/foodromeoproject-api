@@ -14,7 +14,6 @@ PyJWT==1.4.0
 Pygments==2.1
 Unidecode==0.04.18
 django-facebook==6.0.3
-django-oauth2-provider==0.2.6.1
 django-realtime==1.1
 djangorestframework==3.3.2
 google-api-python-client==1.4.2
