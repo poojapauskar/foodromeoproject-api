@@ -52,8 +52,11 @@ INSTALLED_APPS = (
     'register',
     'verify',
     'social.apps.django_app.default',
-    'foodromeoapp',
+    'facebook',
+    'google',
 )
+
+AUTH_PROFILE_MODULE = 'profiles.profile'
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -68,11 +71,22 @@ MIDDLEWARE_CLASSES = (
 
 ROOT_URLCONF = 'foodromeoapp.urls'
 
+# FIELDS_STORED_IN_SESSION = ['key']
+# LOGIN_REDIRECT_URL = '/'
 
-LOGIN_REDIRECT_URL = '/'
+# SOCIAL_AUTH_FACEBOOK_KEY = '177909892570210'
+# SOCIAL_AUTH_FACEBOOK_SECRET = 'db005a2d32b03896dd46341e8cba2081'
 
-SOCIAL_AUTH_FACEBOOK_KEY = '177909892570210'
-SOCIAL_AUTH_FACEBOOK_SECRET = 'db005a2d32b03896dd46341e8cba2081'
+SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
+    'fields': 'id,name,email', # needed starting from protocol v2.4
+}
+
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['email'] 
+
+
+
+FACEBOOK_APP_ID = '177909892570210'
+FACEBOOK_SECRET_KEY = 'db005a2d32b03896dd46341e8cba2081'
 
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '219221435680-f4oiivqg1mil18deh9dm0e2kvpisc9j4.apps.googleusercontent.com'
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '2GPU8BEZi5HNMkyybsC38xNd'

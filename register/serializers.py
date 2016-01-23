@@ -5,7 +5,7 @@ from register.models import Register
 class RegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = Register
-        fields = ('id', 'firstname', 'lastname', 'email', 'phone', 'address_line_1','address_line_2','city','pin_code','photo','password','access_token')
+        fields = ('id', 'firstname', 'lastname', 'email', 'phone', 'address_line_1','address_line_2','city','pin_code','photo','password','access_token','fb_id','fb_access_token','google_id','google_access_token')
 
 
     def create(self, validated_data):
