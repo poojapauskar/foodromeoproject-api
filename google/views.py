@@ -42,16 +42,16 @@ from rest_framework import generics
 class CustomListView(generics.ListCreateAPIView):
     #paginate_by = 2
     def get(self, request, *args, **kwargs):
-      access_token = request.GET.get('access_token')
+      google_access_token = request.GET.get('google_access_token')
 
       import sys
-      print >> sys.stderr, "access_token"
-      print >> sys.stderr, access_token
+      print >> sys.stderr, "google_access_token"
+      print >> sys.stderr, google_access_token
 
       
       http = httplib2.Http(timeout=15)
       # Get basic information about the person
-      response, content = http.request('https://www.googleapis.com/oauth2/v1/userinfo?access_token=%s' % access_token)
+      response, content = http.request('https://www.googleapis.com/oauth2/v1/userinfo?access_token=%s' % google_access_token)
       data = json.loads(content)
 
    # ?fields=id,name,location,picture' \
@@ -73,23 +73,44 @@ class CustomListView(generics.ListCreateAPIView):
       #             )
 
       if (response['status'] == "200") :
-        Register.objects.create(google_id=data['id'],google_access_token=access_token,firstname=data['given_name'],lastname=data['family_name'],photo=data['picture'])
-        details.append(
-                        {
-                          'status':200,
-                          # 'message':"Valid access token",
-                          # 'access_token':access_token,
-                          # 'refresh_token':data['refresh_token'],
-                          # 'expires':response['expires'],
-                          # 'data':response,
-                          'id':data['id'],
-                          'firstname':data['given_name'],
-                          'lastname':data['family_name'],
-                          'name':data['name'],
-                          'picture':data['picture'],
+        if(Register.objects.filter(google_id=data['id']).exists()):
+          obj=Register.objects.get(google_id=data['id'])
+          details.append(
+                          {
+                            'status':200,
+                            'name':data['name'],
+                            # 'message':"Valid access token",
+                            # 'google_access_token':google_access_token,
+                            # 'refresh_token':data['refresh_token'],
+                            # 'expires':response['expires'],
+                            # 'data':response,
+                            'google_id':data['id'],
+                            'firstname':obj.firstname,
+                            'lastname':obj.lastname,
                             
-                        }
-                  )
+                            'picture':obj.photo,
+                              
+                          }
+                    )
+        else:
+          Register.objects.create(google_id=data['id'],google_access_token=google_access_token,firstname=data['given_name'],lastname=data['family_name'],photo=data['picture'])
+        
+          details.append(
+                          {
+                            'status':200,
+                            # 'message':"Valid access token",
+                            # 'google_access_token':google_access_token,
+                            # 'refresh_token':data['refresh_token'],
+                            # 'expires':response['expires'],
+                            # 'data':response,
+                            'google_id':data['id'],
+                            'firstname':data['given_name'],
+                            'lastname':data['family_name'],
+                            'name':data['name'],
+                            'picture':data['picture'],
+                              
+                          }
+                    )
       else:
         details.append(
                         {

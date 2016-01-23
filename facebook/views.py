@@ -43,17 +43,17 @@ from rest_framework import generics
 class CustomListView(generics.ListCreateAPIView):
     #paginate_by = 2
     def get(self, request, *args, **kwargs):
-      access_token = request.GET.get('access_token')
+      fb_access_token = request.GET.get('fb_access_token')
 
       import sys
-      print >> sys.stderr, "access_token"
-      print >> sys.stderr, access_token
+      print >> sys.stderr, "fb_access_token"
+      print >> sys.stderr, fb_access_token
 
       
       http = httplib2.Http(timeout=15)
       # Get basic information about the person
       response, content = http.request('https://graph.facebook.com/me?fields=id,name,email,first_name,last_name,picture' \
-          u'&access_token=%s' % access_token)
+          u'&access_token=%s' % fb_access_token)
       data = json.loads(content)
 
 
@@ -68,21 +68,37 @@ class CustomListView(generics.ListCreateAPIView):
       details=[]
 
       if (response['status'] == "200") :
-
-        Register.objects.create(fb_id=data['id'],fb_access_token=access_token,firstname=data['first_name'],lastname=data['last_name'],photo=data['picture']['data']['url'])
-        details.append(
-                        {
-                          'status':200,
-                          'fb_id':data['id'],
-                          'name':data['name'],
-                          # 'access_token':access_token,
-                          # 'expiry':response['expires'], 
-                          'firstname':data['first_name'],
-                          'lastname':data['last_name'],
-                          'picture':data['picture']['data']['url'],
-                          # 'data':data,
-                        }
-                  )
+        if(Register.objects.filter(fb_id=data['id']).exists()):
+          obj=Register.objects.get(fb_id=data['id'])
+          details.append(
+                          {
+                            'status':200,
+                            'fb_id':data['id'],
+                            'name':data['name'],
+                            # 'fb_access_token':fb_access_token,
+                            # 'expiry':response['expires'], 
+                            'firstname':obj.firstname,
+                            'lastname':obj.lastname,
+                            
+                            'picture':obj.photo,
+                            # 'data':data,
+                          }
+                    )
+        else:
+          Register.objects.create(fb_id=data['id'],fb_access_token=fb_access_token,firstname=data['first_name'],lastname=data['last_name'],photo=data['picture']['data']['url'])
+          details.append(
+                          {
+                            'status':200,
+                            'fb_id':data['id'],
+                            'name':data['name'],
+                            # 'fb_access_token':fb_access_token,
+                            # 'expiry':response['expires'], 
+                            'firstname':data['first_name'],
+                            'lastname':data['last_name'],
+                            'picture':data['picture']['data']['url'],
+                            # 'data':data,
+                          }
+                    )
       else:
         details.append(
                         {

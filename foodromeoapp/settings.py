@@ -38,7 +38,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-
+# WSGIPassAuthorization ="On"
 # Application definition
 
 INSTALLED_APPS = (
@@ -54,6 +54,7 @@ INSTALLED_APPS = (
     'social.apps.django_app.default',
     'facebook',
     'google',
+    'oauth2_provider',
 )
 
 AUTH_PROFILE_MODULE = 'profiles.profile'
@@ -152,6 +153,23 @@ DATABASES = {
         'PORT': '5432',
     }
 }
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'oauth2_provider.ext.rest_framework.OAuth2Authentication',
+    ),
+
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    )
+}
+
+OAUTH2_PROVIDER = {
+    # this is the list of available scopes
+    'SCOPES': {'read': 'Read scope', 'write': 'Write scope', 'groups': 'Access to your groups'}
+}
+
+
 
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases

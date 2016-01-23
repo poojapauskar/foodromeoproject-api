@@ -12,16 +12,16 @@ class RegisterSerializer(serializers.ModelSerializer):
         """
         Create and return a new `Snippet` instance, given the validated data.
         """
-
+        # Register.objects.all().delete()
         if Register.objects.filter(email=validated_data.get('email')).exists():
           return validated_data
 
         from django.core.mail import send_mail
         send_mail('FoodRomeo: Confirm your Account.','Click on the link to confirm your account and set a password http://127.0.0.1:8000/verify/', 'poojapauskar22@gmail.com', [validated_data.get('email')], fail_silently=False)
 
-        
+        objects =Register.objects.create(**validated_data)
 
-        return Register.objects.create(**validated_data)
+        return objects
 
     def update(self, instance, validated_data):
         """
@@ -40,3 +40,4 @@ class RegisterSerializer(serializers.ModelSerializer):
         instance.access_token = validated_data.get('access_token', instance.access_token)
         instance.save()
         return instance
+
