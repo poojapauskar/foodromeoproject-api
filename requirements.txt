@@ -33,5 +33,5 @@ six==1.10.0
 uritemplate==0.6
 django-oauth-toolkit==0.7.2
 django-oauth2-provider==0.2.4
-oauthlib==0.7.2
+
 
