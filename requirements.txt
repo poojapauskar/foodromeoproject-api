@@ -31,7 +31,6 @@ rsa==3.3
 shortuuid==0.4.3
 simplejson==3.8.1
 six==1.10.0
-static3==0.6.1
 uritemplate==0.6
 wsgiref==0.1.2
 
