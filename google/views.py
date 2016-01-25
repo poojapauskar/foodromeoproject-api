@@ -12,6 +12,8 @@ from django.shortcuts import get_object_or_404
 from django.db.models import Count 
 from django.http import JsonResponse
 
+from django.contrib.auth.models import User, Group
+
 # class Get_listList(generics.ListCreateAPIView):
 #  queryset = Ticket.objects.all()
 #  serializer_class = Get_listSerializer
@@ -44,6 +46,7 @@ class CustomListView(generics.ListCreateAPIView):
     def get(self, request, *args, **kwargs):
       google_access_token = request.GET.get('google_access_token')
 
+      import json
       import sys
       print >> sys.stderr, "google_access_token"
       print >> sys.stderr, google_access_token
@@ -89,11 +92,57 @@ class CustomListView(generics.ListCreateAPIView):
                             'lastname':obj.lastname,
                             
                             'picture':obj.photo,
+                            'access_token':obj.access_token,
                               
                           }
                     )
         else:
-          Register.objects.create(google_id=data['id'],google_access_token=google_access_token,firstname=data['given_name'],lastname=data['family_name'],photo=data['picture'])
+
+          user=User.objects.create(username=data['id'],password="foodromeo")
+
+          from oauth2_provider.settings import oauth2_settings
+          from oauthlib.common import generate_token
+          from django.http import JsonResponse
+          from oauth2_provider.models import AccessToken, Application, RefreshToken
+          from django.utils.timezone import now, timedelta
+          from django.http import HttpResponse
+          from django.contrib.auth import login
+         # from social.apps.django_app.utils import psa
+         # from .tools import get_access_token
+          from datetime import datetime
+
+
+          expire_seconds = oauth2_settings.user_settings['ACCESS_TOKEN_EXPIRE_SECONDS']
+          scopes = oauth2_settings.user_settings['SCOPES']
+
+          application = Application.objects.get(name="foodromeo")
+          expires = datetime.now() + timedelta(seconds=expire_seconds)
+          access_token = AccessToken.objects.create(
+                  user=user,
+                  application=application,
+                  token=generate_token(),
+                  expires=expires,
+                  scope=scopes)
+
+          refresh_token = RefreshToken.objects.create(
+                  user=user,
+                  token=generate_token(),
+                  access_token=access_token,
+                  application=application)
+
+          # token = {
+          #         'access_token': access_token.token,
+          #         'token_type': 'Bearer',
+          #         'expires_in': expire_seconds,
+          #         'refresh_token': refresh_token.token,
+          #         'scope': scopes}
+
+          
+          token = access_token.token
+          token= json.dumps(token)
+          token = token.replace('"','')
+
+          Register.objects.create(access_token=token,google_id=data['id'],google_access_token=google_access_token,firstname=data['given_name'],lastname=data['family_name'],photo=data['picture'])
         
           details.append(
                           {
@@ -108,6 +157,7 @@ class CustomListView(generics.ListCreateAPIView):
                             'lastname':data['family_name'],
                             'name':data['name'],
                             'picture':data['picture'],
+                            'access_token':token,
                               
                           }
                     )
@@ -120,6 +170,7 @@ class CustomListView(generics.ListCreateAPIView):
                   )
 
       #give an access token of our app and fb_id to client-end and save fb details in register model  
+      from django.http import JsonResponse
       return JsonResponse(details[0],safe=False)
 
 # def facebook(request):

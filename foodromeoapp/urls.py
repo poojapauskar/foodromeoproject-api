@@ -55,7 +55,17 @@ router = routers.DefaultRouter()
 router.register(r'users', UserViewSet)
 router.register(r'groups', GroupViewSet)
 
-urlpatterns = patterns('',
+# urlpatterns = patterns('',
+#     url(r'^', include(router.urls)),
+#     url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
+#     url(r'^admin/', include(admin.site.urls)),
+#     url(r'^', include('register.urls')),
+#     url(r'^', include('verify.urls')),
+#     url(r'^', include('facebook.urls')),
+#     url(r'^', include('google.urls')),
+# )
+
+urlpatterns = [
     url(r'^', include(router.urls)),
     url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
     url(r'^admin/', include(admin.site.urls)),
@@ -63,7 +73,7 @@ urlpatterns = patterns('',
     url(r'^', include('verify.urls')),
     url(r'^', include('facebook.urls')),
     url(r'^', include('google.urls')),
-)
+]
 
 # urlpatterns = [
 #     # url(r'^admin/', include(admin.site.urls)),

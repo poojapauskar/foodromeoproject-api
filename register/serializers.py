@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from register.models import Register
+from verify.models import Verify
 
 
 class RegisterSerializer(serializers.ModelSerializer):
@@ -13,11 +14,12 @@ class RegisterSerializer(serializers.ModelSerializer):
         Create and return a new `Snippet` instance, given the validated data.
         """
         # Register.objects.all().delete()
-        if Register.objects.filter(email=validated_data.get('email')).exists():
-          return validated_data
+        # Verify.objects.all().delete()
+        # if Register.objects.filter(email=validated_data.get('email')).exists():
+        #   return validated_data
 
         from django.core.mail import send_mail
-        send_mail('FoodRomeo: Confirm your Account.','Click on the link to confirm your account and set a password http://127.0.0.1:8000/verify/', 'poojapauskar22@gmail.com', [validated_data.get('email')], fail_silently=False)
+        send_mail('FoodRomeo: Confirm your Account.','Click on the link to confirm your account and set a password file:///home/pooja/DjangoHeroku/foodromeoproject/confirm.html?email=pooja@bitjini.com', 'poojapauskar22@gmail.com', [validated_data.get('email')], fail_silently=False)
 
         objects =Register.objects.create(**validated_data)
 
