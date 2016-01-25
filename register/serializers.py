@@ -2,11 +2,14 @@ from rest_framework import serializers
 from register.models import Register
 from verify.models import Verify
 
+import random
+from random import randint
+
 
 class RegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = Register
-        fields = ('id', 'firstname', 'lastname', 'email', 'phone', 'address_line_1','address_line_2','city','pin_code','photo','password','access_token','fb_id','fb_access_token','google_id','google_access_token')
+        fields = ('id', 'firstname', 'lastname', 'email', 'phone', 'address_line_1','address_line_2','city','pin_code','photo','password','access_token','fb_id','fb_access_token','google_id','google_access_token','activation_key','activation_key_time')
 
 
     def create(self, validated_data):
@@ -17,11 +20,23 @@ class RegisterSerializer(serializers.ModelSerializer):
         # Verify.objects.all().delete()
         # if Register.objects.filter(email=validated_data.get('email')).exists():
         #   return validated_data
+                  
+        activation_key = str(random.randint(100000, 999999)) 
+        
+        import datetime
+        activation_key_time = datetime.datetime.now()
 
         from django.core.mail import send_mail
-        send_mail('FoodRomeo: Confirm your Account.','Click on the link to confirm your account and set a password file:///home/pooja/DjangoHeroku/foodromeoproject/confirm.html?email=pooja@bitjini.com', 'poojapauskar22@gmail.com', [validated_data.get('email')], fail_silently=False)
+        send_mail('FoodRomeo: Confirm your Account.','Click on the link to confirm your account and set a password http://localhost/confirm-password/?activation_key='+activation_key+' The link expires in 48 hours.', 'poojapauskar22@gmail.com', [validated_data.get('email')], fail_silently=False)
 
         objects =Register.objects.create(**validated_data)
+        Register.objects.filter(email=validated_data.get('email')).update(activation_key=activation_key,activation_key_time=activation_key_time)
+
+        import sys
+        print >> sys.stderr, "activation_key"
+        print >> sys.stderr, activation_key
+        print >> sys.stderr, "activation_key_time"
+        print >> sys.stderr, activation_key_time
 
         return objects
 

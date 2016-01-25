@@ -18,12 +18,12 @@ class VerifySerializer(serializers.ModelSerializer):
 
         # Register.objects.filter(email=validated_data.get('email')).update(password=validated_data.get('password'))
         
-        if (Verify.objects.filter(email=validated_data.get('email')).values('email')).exists():
-         Verify.objects.filter(email=validated_data.get('email')).delete()
+        # if (Verify.objects.filter(email=validated_data.get('email')).values('email')).exists():
+        #  Verify.objects.filter(email=validated_data.get('email')).delete()
 
 
         
-
+        
         user=User.objects.create(username=validated_data.get('email'),password="foodromeo")
 
         from oauth2_provider.settings import oauth2_settings
@@ -73,6 +73,8 @@ class VerifySerializer(serializers.ModelSerializer):
         objects=Verify.objects.create(email=validated_data.get('email'),password=validated_data.get('password'),confirm_password=validated_data.get('confirm_password'),valid=1,access_token=token)
         import sys
         print >> sys.stderr, objects
+
+        Register.objects.filter(email=validated_data.get('email')).update(activation_key='')
 
         return objects
 

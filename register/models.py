@@ -23,6 +23,8 @@ class Register(models.Model):
     fb_access_token = models.TextField(blank=True,default='')
     google_id = models.TextField(blank=True,default='')
     google_access_token = models.TextField(blank=True,default='')
+    activation_key= models.TextField(blank=True,default='')
+    activation_key_time= models.CharField(max_length=100, blank=True,default='')
     
     class Meta:
         ordering = ('created',)

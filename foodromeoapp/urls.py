@@ -73,6 +73,7 @@ urlpatterns = [
     url(r'^', include('verify.urls')),
     url(r'^', include('facebook.urls')),
     url(r'^', include('google.urls')),
+    url(r'^', include('get_user.urls')),
 ]
 
 # urlpatterns = [

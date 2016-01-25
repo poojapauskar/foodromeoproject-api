@@ -55,6 +55,7 @@ INSTALLED_APPS = (
     'facebook',
     'google',
     'oauth2_provider',
+    'get_user',
 )
 
 AUTH_PROFILE_MODULE = 'profiles.profile'
