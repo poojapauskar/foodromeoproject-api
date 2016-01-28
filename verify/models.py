@@ -9,7 +9,7 @@ class Verify(models.Model):
     email = models.EmailField(max_length=100, blank=False,default='')
     password = models.CharField(max_length=100, blank=False,default='')
     confirm_password = models.CharField(max_length=100, blank=False,default='')
-    access_token = models.CharField(max_length=100, blank=False,default='')
+    # access_token = models.CharField(max_length=100, blank=False,default='')
     valid = models.CharField(max_length=100, blank=False,default='')
     
     class Meta:

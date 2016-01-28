@@ -61,10 +61,10 @@ class CustomListView(generics.ListCreateAPIView):
    #        u'&access_token={1}
 
 
-      # import sys
-      # print >> sys.stderr, "response"
-      # print >> sys.stderr, response
-      # print >> sys.stderr, data
+      import sys
+      print >> sys.stderr, "response"
+      print >> sys.stderr, response
+      print >> sys.stderr, data
 
       details=[]
 
@@ -81,15 +81,16 @@ class CustomListView(generics.ListCreateAPIView):
           details.append(
                           {
                             'status':200,
-                            'name':data['name'],
+                            # 'name':data['name'],
                             # 'message':"Valid access token",
                             # 'google_access_token':google_access_token,
                             # 'refresh_token':data['refresh_token'],
                             # 'expires':response['expires'],
                             # 'data':response,
                             'google_id':data['id'],
-                            'firstname':obj.firstname,
-                            'lastname':obj.lastname,
+                            # 'firstname':obj.firstname,
+                            # 'lastname':obj.lastname,
+                            'email':obj.email,
                             
                             'picture':obj.photo,
                             'access_token':obj.access_token,
@@ -97,7 +98,9 @@ class CustomListView(generics.ListCreateAPIView):
                           }
                     )
         else:
-
+          if(User.objects.filter(username=data['id']).exists()):
+           User.objects.filter(username=data['id']).delete()
+           
           user=User.objects.create(username=data['id'],password="foodromeo")
 
           from oauth2_provider.settings import oauth2_settings
@@ -142,7 +145,7 @@ class CustomListView(generics.ListCreateAPIView):
           token= json.dumps(token)
           token = token.replace('"','')
 
-          Register.objects.create(access_token=token,google_id=data['id'],google_access_token=google_access_token,firstname=data['given_name'],lastname=data['family_name'],photo=data['picture'])
+          Register.objects.create(access_token=token,google_id=data['id'],google_access_token=google_access_token,email=data['email'],photo=data['picture'])
         
           details.append(
                           {
@@ -153,9 +156,10 @@ class CustomListView(generics.ListCreateAPIView):
                             # 'expires':response['expires'],
                             # 'data':response,
                             'google_id':data['id'],
-                            'firstname':data['given_name'],
-                            'lastname':data['family_name'],
-                            'name':data['name'],
+                            # 'firstname':data['given_name'],
+                            # 'lastname':data['family_name'],
+                            # 'name':data['name'],
+                            'email':data['email'],
                             'picture':data['picture'],
                             'access_token':token,
                               

@@ -59,7 +59,8 @@ class CustomListView(generics.ListCreateAPIView):
           u'&access_token=%s' % fb_access_token)
       data = json.loads(content)
 
-
+      # ('https://graph.facebook.com/me?fields=id,name,email,first_name,last_name,picture' \
+      #     u'&access_token=%s' % fb_access_token)
    # ?fields=id,name,location,picture' \
    #        u'&access_token={1}
 
@@ -67,6 +68,8 @@ class CustomListView(generics.ListCreateAPIView):
       import sys
       print >> sys.stderr, "response"
       print >> sys.stderr, response
+      print >> sys.stderr, "data"
+      print >> sys.stderr, data
 
       details=[]
 
@@ -86,9 +89,16 @@ class CustomListView(generics.ListCreateAPIView):
                             'picture':obj.photo,
                             'access_token':obj.access_token,
                             # 'data':data,
+                            # 'response':response,
+                            'email':obj.email,
                           }
                     )
         else:
+
+          if(User.objects.filter(username=data['id']).exists()):
+           User.objects.filter(username=data['id']).delete()
+
+
 
           user=User.objects.create(username=data['id'],password="foodromeo")
 
@@ -136,7 +146,7 @@ class CustomListView(generics.ListCreateAPIView):
 
           # Register.objects.filter(email=validated_data.get('email')).update(access_token=token)
 
-          Register.objects.create(access_token=token,fb_id=data['id'],fb_access_token=fb_access_token,firstname=data['first_name'],lastname=data['last_name'],photo=data['picture']['data']['url'])
+          Register.objects.create(access_token=token,fb_id=data['id'],fb_access_token=fb_access_token,email=data['email'],firstname=data['first_name'],lastname=data['last_name'],photo=data['picture']['data']['url'])
           
 
           details.append(
@@ -144,6 +154,7 @@ class CustomListView(generics.ListCreateAPIView):
                             'status':200,
                             'fb_id':data['id'],
                             'name':data['name'],
+                            'email':data['email'],
                             # 'fb_access_token':fb_access_token,
                             # 'expiry':response['expires'], 
                             'firstname':data['first_name'],

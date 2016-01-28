@@ -26,10 +26,22 @@ class RegisterSerializer(serializers.ModelSerializer):
         import datetime
         activation_key_time = datetime.datetime.now()
 
-        from django.core.mail import send_mail
-        send_mail('FoodRomeo: Confirm your Account.','Click on the link to confirm your account and set a password http://localhost/confirm-password/?activation_key='+activation_key+' The link expires in 48 hours.', 'poojapauskar22@gmail.com', [validated_data.get('email')], fail_silently=False)
+        # from django.core.mail import send_mail
+        # send_mail('FoodRomeo: Confirm your Account.','Click on the link to confirm your account and set a password http://localhost/set-password/?activation_key='+activation_key+' The link expires in 48 hours.', 'poojapauskar22@gmail.com', [validated_data.get('email')], fail_silently=False)
 
-        objects =Register.objects.create(**validated_data)
+        objects=[]
+        
+
+        if(Register.objects.filter(email=validated_data.get('email')).exists()):
+         Register.objects.filter(email=validated_data.get('email')).update(activation_key=activation_key,activation_key_time=activation_key_time)
+         from django.core.mail import send_mail
+         send_mail('FoodRomeo: Reset your password.','Click on the link to set a password http://localhost/set-password/?activation_key='+activation_key+' The link expires in 48 hours.', 'poojapauskar22@gmail.com', [validated_data.get('email')], fail_silently=False)
+         return validated_data
+        else:
+         from django.core.mail import send_mail
+         send_mail('FoodRomeo: Confirm your Account.','Click on the link to confirm your account and set a password http://localhost/set-password/?activation_key='+activation_key+' The link expires in 48 hours.', 'poojapauskar22@gmail.com', [validated_data.get('email')], fail_silently=False)
+         objects =Register.objects.create(**validated_data)
+         
         Register.objects.filter(email=validated_data.get('email')).update(activation_key=activation_key,activation_key_time=activation_key_time)
 
         import sys
