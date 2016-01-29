@@ -81,7 +81,7 @@ ROOT_URLCONF = 'foodromeoapp.urls'
 # SOCIAL_AUTH_FACEBOOK_SECRET = 'db005a2d32b03896dd46341e8cba2081'
 
 FACEBOOK_EXTENDED_PERMISSIONS = ['email']
-SOCIAL_AUTH_FACEBOOK_SCOPE = ['email'] 
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['email', 'user_photos']
 SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
   'locale': 'ru_RU',
   'fields': 'id, name, email, age_range'

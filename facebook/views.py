@@ -16,6 +16,8 @@ from django.http import JsonResponse
 
 from django.contrib.auth.models import User, Group
 
+
+
 # class Get_listList(generics.ListCreateAPIView):
 #  queryset = Ticket.objects.all()
 #  serializer_class = Get_listSerializer

@@ -25,6 +25,7 @@ class Register(models.Model):
     google_access_token = models.TextField(blank=True,default='')
     activation_key= models.TextField(blank=True,default='')
     activation_key_time= models.CharField(max_length=100, blank=True,default='')
+    is_set_pw= models.CharField(max_length=100, blank=True,default='')
     
     class Meta:
         ordering = ('created',)

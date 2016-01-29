@@ -4,7 +4,7 @@ from register import views
 
 urlpatterns = [
     url(r'^register/$', views.RegisterList.as_view()),
-    url(r'^register/(?P<pk>[0-9]+)/$', views.RegisterDetail.as_view()),
+    url(r'^register_detail/$', views.RegisterDetail.as_view()),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
