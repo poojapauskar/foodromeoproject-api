@@ -9,7 +9,7 @@ from random import randint
 class RegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = Register
-        fields = ('id','is_set_pw', 'firstname', 'lastname', 'email', 'phone', 'address_line_1','address_line_2','city','pin_code','photo','password','access_token','fb_id','fb_access_token','google_id','google_access_token','activation_key','activation_key_time')
+        fields = ('id','is_set_pw', 'firstname', 'lastname', 'email', 'phone', 'address_line_1','address_line_2','city','pin_code','photo','password','access_token','fb_id','fb_access_token','google_id','google_access_token','twitter_id','twitter_token','twitter_token_secret','twitter_screen_name','activation_key','activation_key_time')
 
 
     def create(self, validated_data):

@@ -75,6 +75,7 @@ urlpatterns = [
     url(r'^', include('google.urls')),
     url(r'^', include('get_user.urls')),
     url(r'^', include('login.urls')),
+    url(r'^', include('twitter.urls')),
 ]
 
 # urlpatterns = [

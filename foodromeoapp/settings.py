@@ -57,6 +57,7 @@ INSTALLED_APPS = (
     'oauth2_provider',
     'get_user',
     'login',
+    'twitter',
 )
 
 AUTH_PROFILE_MODULE = 'profiles.profile'
@@ -95,6 +96,10 @@ SOCIAL_AUTH_FACEBOOK_SECRET = 'db005a2d32b03896dd46341e8cba2081'
 
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '219221435680-f4oiivqg1mil18deh9dm0e2kvpisc9j4.apps.googleusercontent.com'
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '2GPU8BEZi5HNMkyybsC38xNd'
+
+
+TWITTER_CONSUMER_KEY         = 'Bn8lK1V5Of3jJt9a5MxlJQqpp'
+TWITTER_CONSUMER_SECRET      = 'BsB4xREhPXddgTP3lUJXF99C6aasB4cJIrQ9fK8L7wu6Jc41ZJ'
 
 # SETTINGS_PATH = os.path.normpath(os.path.dirname(__file__))
 # TEMPLATE_DIRS = (       
