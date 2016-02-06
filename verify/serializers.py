@@ -3,6 +3,7 @@ from rest_framework import serializers
 from register.models import Register
 from verify.models import Verify
 from django.contrib.auth.models import User, Group
+# import settings.PUSH_NOTIFICATIONS_SETTINGS
 
 
 class VerifySerializer(serializers.ModelSerializer):
@@ -24,6 +25,19 @@ class VerifySerializer(serializers.ModelSerializer):
 
         Register.objects.filter(email=validated_data.get('email')).update(activation_key='')
 
+        # Run on 2195 port
+        from push_notifications.models import APNSDevice
+        # 1a11266b8f923ef40e6f9dd425b957f21c5397e6
+        # BEF62791B70AF1E44BB6F441DAF66C85608493250FCD8C7FE9116F1DAE978F5F
+        device = APNSDevice.objects.get(registration_id='BEF62791B70AF1E44BB6F441DAF66C85608493250FCD8C7FE9116F1DAE978F5F')
+        import sys
+        print sys.stderr, "device"
+        print sys.stderr, device
+        device.send_message("You've got mail") # Alert message may only be sent as text.
+        device.send_message(None, badge=5) # No alerts but with badge.
+        device.send_message(None, badge=1, extra={"foo": "bar"}) # Silent message with badge and added custom data.
+
+        # http://0.0.0.0:2195/verify/?access_token=hak7GAIRAi2iLL1KXqKyetSC3cjVko
         return objects
 
     def update(self, instance, validated_data):

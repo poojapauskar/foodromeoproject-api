@@ -58,7 +58,44 @@ INSTALLED_APPS = (
     'get_user',
     'login',
     'twitter',
+    "push_notifications",
 )
+
+apns_file_name = os.path.join(BASE_DIR, 'apns_sandbox.pem')
+if os.environ.get('APNS_CERTIFICATE'):
+    # create certificate file from ENV var
+    from tempfile import NamedTemporaryFile
+    import atexit
+    apns_file = NamedTemporaryFile(delete=False)
+    apns_file.write(bytes(os.environ.get('APNS_CERTIFICATE'), 'UTF-8'))
+    apns_file.close()
+    apns_file_name = apns_file.name
+
+    def unlink_apns_file():
+        os.unlink(apns_file_name)
+    atexit.register(unlink_apns_file)  # remove certificate file on exit
+
+# import os.path
+# BASE1 = os.path.dirname(os.path.abspath(__file__))
+
+# data = open(os.path.join(BASE, "snp_data.txt"))
+
+# FILE_UPLOAD_PERMISSIONS = '0760'
+
+# import sys
+# print sys.stderr ,BASE_DIR
+PUSH_NOTIFICATIONS_SETTINGS = {
+# "GCM_API_KEY": "<your api="" key="">",
+"APNS_CERTIFICATE": os.path.join(BASE_DIR, 'pushme.pem'),
+"APNS_PORT":2195,
+"APNS_HOST":"gateway.sandbox.push.apple.com",
+
+# "APP_ID" : "com.bitjini.pushme", # MAKE SURE THIS DOESN'T CONTAIN ANY PERIODS!
+# "APNS_HOST" : "http://localhost:2195/",
+# "APNS_CERTIFICATE_LOCATION" : "/pushmecertificate.pem", # Created in step 2
+}
+
+SOUTH_MIGRATION_MODULES = {"push_notifications": "push_notifications.south_migrations"}
 
 AUTH_PROFILE_MODULE = 'profiles.profile'
 
