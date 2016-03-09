@@ -25,7 +25,7 @@ class VerifySerializer(serializers.ModelSerializer):
 
         Register.objects.filter(email=validated_data.get('email')).update(activation_key='')
 
-        # Run on 2195 port
+        # Run on 2195 port & http://0.0.0.0:2195/device/apns/?access_token=hak7GAIRAi2iLL1KXqKyetSC3cjVko to register device
         from push_notifications.models import APNSDevice
         # 1a11266b8f923ef40e6f9dd425b957f21c5397e6
         # BEF62791B70AF1E44BB6F441DAF66C85608493250FCD8C7FE9116F1DAE978F5F
