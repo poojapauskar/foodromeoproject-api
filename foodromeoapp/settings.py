@@ -59,6 +59,7 @@ INSTALLED_APPS = (
     'login',
     'twitter',
     "push_notifications",
+    'rest_framework_swagger',
 )
 
 apns_file_name = os.path.join(BASE_DIR, 'apns_sandbox.pem')

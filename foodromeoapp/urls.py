@@ -69,6 +69,7 @@ urlpatterns = [
     url(r'^', include(router.urls)),
     url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^docs/', include('rest_framework_swagger.urls')),
     url(r'^', include('register.urls')),
     url(r'^', include('verify.urls')),
     url(r'^', include('facebook.urls')),
